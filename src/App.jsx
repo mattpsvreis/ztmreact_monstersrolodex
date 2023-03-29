@@ -30,16 +30,19 @@ export default class App extends Component {
   };
 
   render() {
+    const { monsters, filter } = this.state;
+    const { onSearchChange } = this;
+
     return (
       <div className='App'>
         <input
           className='search-box'
           type='search'
           placeholder='search monsters'
-          onChange={this.onSearchChange}
+          onChange={onSearchChange}
         />
-        {this.state.monsters
-          .filter((e) => e.name.toLocaleLowerCase().includes(this.state.filter))
+        {monsters
+          .filter((e) => e.name.toLocaleLowerCase().includes(filter))
           .map((monster) => {
             return (
               <div key={monster.id}>
