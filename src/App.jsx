@@ -25,6 +25,10 @@ export default class App extends Component {
       });
   }
 
+  onSearchChange = (e) => {
+    this.setState({ filter: e.target.value.toLocaleLowerCase() });
+  };
+
   render() {
     return (
       <div className='App'>
@@ -32,9 +36,7 @@ export default class App extends Component {
           className='search-box'
           type='search'
           placeholder='search monsters'
-          onChange={(e) => {
-            this.setState({ filter: e.target.value.toLocaleLowerCase() });
-          }}
+          onChange={this.onSearchChange}
         />
         {this.state.monsters
           .filter((e) => e.name.toLocaleLowerCase().includes(this.state.filter))
