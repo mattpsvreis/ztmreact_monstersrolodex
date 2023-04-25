@@ -15,3 +15,10 @@ body {
     rgba(0, 128, 128, 1) 100%
   );
 }
+
+.app-title {
+  margin-bottom: 50px;
+  font-size: 76px;
+  color: #0ccac4;
+  font-family: 'Bigelow Rules';
+}
