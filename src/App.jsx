@@ -39,7 +39,7 @@ export default class App extends Component {
     return (
       <div className='App'>
         <SearchBox
-          className='search-box'
+          className='monsters-search-box'
           placeholder='search monsters'
           onChange={onSearchChange}
         />
