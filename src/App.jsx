@@ -1,51 +1,39 @@
-import { Component } from 'react';
+import React from 'react';
 
 import CardList from './Components/CardList';
-
-import './App.css';
 import SearchBox from './Components/SearchBox';
 
-export default class App extends Component {
-  constructor() {
-    super();
+import './App.css';
 
-    this.state = {
-      monsters: [],
-      filter: '',
-    };
+export default function App() {
+  const [filter, setFilter] = React.useState('');
+  const [monsters, setMonsters] = React.useState([]);
+  const [filteredMonsters, setFilteredMonsters] = React.useState(monsters);
+
+  function onSearchChange(event) {
+    setFilter(event.target.value.toLocaleLowerCase());
   }
 
-  componentDidMount() {
+  React.useEffect(() => {
     fetch('https://jsonplaceholder.typicode.com/users')
       .then((r) => r.json())
-      .then((users) =>
-        this.setState(() => {
-          return { monsters: users };
-        })
-      )
-      .catch((e) => {
-        console.error(e);
-      });
-  }
+      .then((users) => setMonsters(users))
+      .catch((e) => console.error(e));
+  }, [])
 
-  onSearchChange = (e) => {
-    this.setState({ filter: e.target.value.toLocaleLowerCase() });
-  };
+  React.useEffect(() => {
+    setFilteredMonsters(monsters.filter((e) => e.name.toLocaleLowerCase().includes(filter)))
+  }, [monsters, filter])
 
-  render() {
-    const { monsters, filter } = this.state;
-    const { onSearchChange } = this;
-
-    return (
-      <div className='App'>
-        <h1 className='app-title'>Monsters Rolodex</h1>
-        <SearchBox
-          className='monsters-search-box'
-          placeholder='search monsters'
-          onChange={onSearchChange}
-        />
-        <CardList monsters={monsters} filter={filter} />
-      </div>
-    );
-  }
+  return (
+    <div className='App'>
+      <h1 className='app-title'>Monsters Rolodex</h1>
+      <SearchBox
+        className='monsters-search-box'
+        placeholder='search monsters'
+        onChange={onSearchChange}
+      />
+      <CardList monsters={filteredMonsters} />
+    </div>
+  )
 }
